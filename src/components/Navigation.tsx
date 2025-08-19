@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
-import logo from '@/assets/loggo.jpg';
+
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,11 +15,6 @@ const Navigation = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 ${isHome ? 'bg-transparent' : 'bg-primary'} text-white`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="inline-flex items-center" aria-label="Home">
-            <img src={logo} alt="Exclusive logo" className="h-10 md:h-12 w-auto" />
-          </Link>
-
 
 
           {/* Cart and Mobile Menu */}
