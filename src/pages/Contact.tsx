@@ -33,10 +33,10 @@ const Contact = () => {
       {/* Hero Section */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h1 className="font-heading text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+          <h1 className="font-heading text-5xl md:text-7xl font-bold mb-6">
             Get In Touch
           </h1>
-          <p className="text-xl leading-relaxed opacity-90 animate-fade-in">
+          <p className="text-xl leading-relaxed opacity-90">
             Have questions? Want to collaborate? We'd love to hear from you.
           </p>
         </div>
@@ -47,7 +47,7 @@ const Contact = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Form */}
-            <div className="animate-fade-in">
+            <div>
               <h2 className="font-heading text-3xl font-bold mb-8 text-foreground">
                 Send us a <span className="text-gold">Message</span>
               </h2>
@@ -134,7 +134,7 @@ const Contact = () => {
             </div>
 
             {/* Contact Information */}
-            <div className="animate-fade-in">
+            <div>
               <h2 className="font-heading text-3xl font-bold mb-8 text-foreground">
                 Let's <span className="text-gold">Connect</span>
               </h2>

@@ -1,54 +1,31 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
+import logo from '@/assets/loggo.jpg';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems } = useCart();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b">
+    <nav className={`fixed top-0 left-0 right-0 z-50 ${isHome ? 'bg-transparent' : 'bg-primary'} text-white`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-heading font-bold tracking-wide">
-            EXCLUSIVE
+          <Link to="/" className="inline-flex items-center" aria-label="Home">
+            <img src={logo} alt="Exclusive logo" className="h-10 md:h-12 w-auto" />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/" 
-              className="text-foreground hover:text-gold transition-colors font-medium"
-            >
-              HOME
-            </Link>
-            <Link 
-              to="/about" 
-              className="text-foreground hover:text-gold transition-colors font-medium"
-            >
-              ABOUT US
-            </Link>
-            <Link 
-              to="/shop" 
-              className="text-foreground hover:text-gold transition-colors font-medium"
-            >
-              SHOP NOW
-            </Link>
-            <Link 
-              to="/contact" 
-              className="text-foreground hover:text-gold transition-colors font-medium"
-            >
-              CONTACT US
-            </Link>
-          </div>
+
 
           {/* Cart and Mobile Menu */}
           <div className="flex items-center space-x-4">
             <Link to="/cart" className="relative">
-              <Button variant="ghost" size="icon" className="hover:bg-gold/10">
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
                 <ShoppingCart className="h-5 w-5" />
                 {getTotalItems() > 0 && (
                   <span className="absolute -top-1 -right-1 bg-gold text-gold-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
@@ -58,11 +35,11 @@ const Navigation = () => {
               </Button>
             </Link>
 
-            {/* Mobile Menu Button */}
+            {/* Menu Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="text-white hover:bg-white/10"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -70,34 +47,34 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Navigation Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-background border-t animate-fade-in">
+          <div className={`absolute left-0 right-0 top-16 ${isHome ? 'bg-background/95 backdrop-blur' : 'bg-primary'} border-t z-40`}>
             <div className="py-4 space-y-4">
               <Link 
                 to="/" 
-                className="block px-4 py-2 text-foreground hover:text-gold transition-colors font-medium"
+                className={`block px-4 py-2 font-medium ${isHome ? 'text-foreground' : 'text-white'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 HOME
               </Link>
               <Link 
                 to="/about" 
-                className="block px-4 py-2 text-foreground hover:text-gold transition-colors font-medium"
+                className={`block px-4 py-2 font-medium ${isHome ? 'text-foreground' : 'text-white'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 ABOUT US
               </Link>
               <Link 
                 to="/shop" 
-                className="block px-4 py-2 text-foreground hover:text-gold transition-colors font-medium"
+                className={`block px-4 py-2 font-medium ${isHome ? 'text-foreground' : 'text-white'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 SHOP NOW
               </Link>
               <Link 
                 to="/contact" 
-                className="block px-4 py-2 text-foreground hover:text-gold transition-colors font-medium"
+                className={`block px-4 py-2 font-medium ${isHome ? 'text-foreground' : 'text-white'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 CONTACT US
