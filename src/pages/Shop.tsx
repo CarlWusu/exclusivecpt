@@ -4,12 +4,32 @@ import { products } from '@/data/products';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/context/CartContext';
+import new3 from '@/assets/new3.jpg';
+import img5 from '@/assets/img5.jpg';
 
 const Shop = () => {
   const { addItem } = useCart();
+  const [selectedColors, setSelectedColors] = useState<{[key: string]: string}>({});
+
+  const handleColorSelect = (productId: string, color: string) => {
+    setSelectedColors(prev => ({
+      ...prev,
+      [productId]: color
+    }));
+  };
+
+  const getProductImage = (product: any, color: string) => {
+    if (product.id === 'greater-lines' && color === 'white') {
+      return new3;
+    } else if (product.id === 'number-plate' && color === 'white') {
+      return img5;
+    }
+    return product.image; // Default/black images
+  };
 
   const handleAddToCart = (product: any) => {
-    addItem(product);
+    const selectedColor = selectedColors[product.id] || 'white';
+    addItem(product, undefined, selectedColor);
   };
 
   return (
@@ -37,9 +57,9 @@ const Shop = () => {
                 <div className="space-y-6">
                   <div className="aspect-square overflow-hidden rounded-lg">
                     <img
-                      src={product.image}
+                      src={getProductImage(product, selectedColors[product.id] || 'white')}
                       alt={product.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-all duration-300"
                     />
                   </div>
                   
@@ -52,6 +72,34 @@ const Shop = () => {
                     </p>
                     <div className="text-2xl font-bold text-foreground">
                       ₵{product.price}
+                    </div>
+                    
+                    {/* Color Selection */}
+                    <div className="space-y-3">
+                      <p className="text-sm font-medium text-foreground">Choose Color:</p>
+                      <div className="flex justify-center space-x-3">
+                        <button
+                          onClick={() => handleColorSelect(product.id, 'white')}
+                          className={`w-8 h-8 rounded-full border-2 bg-white ${
+                            (selectedColors[product.id] || 'white') === 'white' 
+                              ? 'border-black ring-2 ring-offset-2 ring-black' 
+                              : 'border-gray-300'
+                          }`}
+                          title="White"
+                        />
+                        <button
+                          onClick={() => handleColorSelect(product.id, 'black')}
+                          className={`w-8 h-8 rounded-full border-2 bg-black ${
+                            selectedColors[product.id] === 'black' 
+                              ? 'border-white ring-2 ring-offset-2 ring-gray-400' 
+                              : 'border-gray-300'
+                          }`}
+                          title="Black"
+                        />
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Selected: {(selectedColors[product.id] || 'white').charAt(0).toUpperCase() + (selectedColors[product.id] || 'white').slice(1)}
+                      </p>
                     </div>
                     
                     <Button

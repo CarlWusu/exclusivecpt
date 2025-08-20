@@ -11,11 +11,13 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     setIsCheckingOut(true);
+    
     // Simulate checkout process
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsCheckingOut(false);
-    // In a real app, this would integrate with payment processors
-    alert('Checkout complete! Thank you for your purchase.');
+    
+    // Show success message
+    alert('Order placed successfully! Thank you for your purchase.');
   };
 
   if (state.items.length === 0) {
@@ -59,7 +61,7 @@ const Cart = () => {
           <div className="lg:col-span-2">
             <div className="space-y-6">
               {state.items.map((item) => (
-                <Card key={`${item.id}-${item.size || 'default'}`} className="overflow-hidden">
+                <Card key={`${item.id}-${item.size || 'default'}-${item.color || 'default'}`} className="overflow-hidden">
                   <CardContent className="p-6">
                     <div className="flex items-center space-x-6">
                       {/* Product Image */}
@@ -84,6 +86,17 @@ const Cart = () => {
                             Size: {item.size}
                           </p>
                         )}
+                        {item.color && (
+                          <div className="flex items-center space-x-2 mb-2">
+                            <span className="text-muted-foreground text-sm">Color:</span>
+                            <div 
+                              className={`w-4 h-4 rounded-full border ${
+                                item.color === 'white' ? 'bg-white border-gray-300' : 'bg-black border-gray-600'
+                              }`}
+                            />
+                            <span className="text-muted-foreground text-sm capitalize">{item.color}</span>
+                          </div>
+                        )}
                         <p className="font-semibold text-lg text-foreground">
                           ₵{item.price}
                         </p>
@@ -94,7 +107,7 @@ const Cart = () => {
                         <Button
                           variant="outline"
                           size="icon"
-                          onClick={() => updateQuantity(item.id, item.quantity - 1, item.size)}
+                          onClick={() => updateQuantity(item.id, item.quantity - 1, item.size, item.color)}
                           className="h-8 w-8"
                         >
                           <Minus className="h-4 w-4" />
@@ -105,7 +118,7 @@ const Cart = () => {
                         <Button
                           variant="outline"
                           size="icon"
-                          onClick={() => updateQuantity(item.id, item.quantity + 1, item.size)}
+                          onClick={() => updateQuantity(item.id, item.quantity + 1, item.size, item.color)}
                           className="h-8 w-8"
                         >
                           <Plus className="h-4 w-4" />

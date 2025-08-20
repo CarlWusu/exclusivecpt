@@ -61,6 +61,20 @@ const Navigation = () => {
                 ABOUT US
               </Link>
               <Link 
+                to="/our-concepts" 
+                className={`block px-4 py-2 font-medium ${isHome ? 'text-foreground' : 'text-white'}`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                OUR CONCEPTS
+              </Link>
+              <Link 
+                to="/gallery" 
+                className={`block px-4 py-2 font-medium ${isHome ? 'text-foreground' : 'text-white'}`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                GALLERY
+              </Link>
+              <Link 
                 to="/shop" 
                 className={`block px-4 py-2 font-medium ${isHome ? 'text-foreground' : 'text-white'}`}
                 onClick={() => setIsMenuOpen(false)}

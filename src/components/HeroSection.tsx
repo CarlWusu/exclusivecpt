@@ -31,13 +31,13 @@ const HeroSection = () => {
           </h1>
 
           {/* CTA under heading */}
-          <Link to="/contact" className="mt-8 inline-block">
+          <Link to="/shop" className="mt-8 inline-block">
             <Button
               size="lg"
               variant="ghost"
               className="rounded-full border border-white/30 bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm px-6 py-6 h-auto"
             >
-              GET IN TOUCH
+              SHOP NOW
               <ArrowUpRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
