@@ -15,9 +15,9 @@ const Gallery = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const galleryImages = [
-    { src: new3, alt: "Number Plate Concept" },
-    { src: new1, alt: "New Collection 1" },
-    { src: new2, alt: "New Collection 2" },
+    { src: new3, alt: "Greater Lines Concept" },
+    { src: new1, alt: "Number Plate Concept" },
+    { src: new2, alt: "Number Plate Concept" },
     { src: muse2, alt: "Number Plate Concept Design" },
     { src: muse3, alt: "Greater Lines Concept Design" },
     { src: gl, alt: "Greater Lines Concept" },
