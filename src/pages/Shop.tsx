@@ -11,11 +11,21 @@ import img5 from '@/assets/img5.jpg';
 const Shop = () => {
   const { addItem } = useCart();
   const [selectedColors, setSelectedColors] = useState<{[key: string]: string}>({});
+  const [quantities, setQuantities] = useState<{[key: string]: number}>({});
 
   const handleColorSelect = (productId: string, color: string) => {
     setSelectedColors(prev => ({
       ...prev,
       [productId]: color
+    }));
+  };
+
+  const handleQuantityChange = (productId: string, quantity: number) => {
+    // Ensure quantity is between 1 and 100
+    const validQuantity = Math.max(1, Math.min(100, quantity));
+    setQuantities(prev => ({
+      ...prev,
+      [productId]: validQuantity
     }));
   };
 
@@ -30,7 +40,12 @@ const Shop = () => {
 
   const handleAddToCart = (product: any) => {
     const selectedColor = selectedColors[product.id] || 'white';
-    addItem(product, undefined, selectedColor);
+    const quantity = quantities[product.id] || 1;
+    
+    // Add the item multiple times based on quantity
+    for (let i = 0; i < quantity; i++) {
+      addItem(product, undefined, selectedColor);
+    }
   };
 
   return (
@@ -109,12 +124,48 @@ const Shop = () => {
                       </p>
                     </div>
                     
+                    {/* Quantity Selector */}
+                    <div className="space-y-3">
+                      <p className="text-sm font-medium text-foreground">Quantity:</p>
+                      <div className="flex items-center justify-center space-x-3">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) - 1)}
+                          disabled={(quantities[product.id] || 1) <= 1}
+                          className="h-8 w-8"
+                        >
+                          -
+                        </Button>
+                        <Input
+                          type="number"
+                          min="1"
+                          max="100"
+                          value={quantities[product.id] || 1}
+                          onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value) || 1)}
+                          className="w-16 text-center"
+                        />
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) + 1)}
+                          disabled={(quantities[product.id] || 1) >= 100}
+                          className="h-8 w-8"
+                        >
+                          +
+                        </Button>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Max: 100 shirts
+                      </p>
+                    </div>
+                    
                     <Button
                       size="lg"
                       onClick={() => handleAddToCart(product)}
                       className="bg-white text-black hover:bg-white/90 font-heading font-semibold px-8"
                     >
-                      ADD TO CART
+                      ADD {quantities[product.id] || 1} TO CART
                     </Button>
                   </div>
                 </div>
