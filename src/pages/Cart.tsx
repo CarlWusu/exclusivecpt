@@ -177,7 +177,7 @@ const Cart = () => {
                   {showDelivery ? 'Delivery Information' : showCheckout ? 'Customer Information' : 'Order Summary'}
                 </h2>
                 
-                {!showCheckout && !showDelivery ? (
+                {!showCheckout && !showDelivery && (
                   <>
                     <div className="space-y-4 mb-6">
                       <div className="flex justify-between">
@@ -218,7 +218,8 @@ const Cart = () => {
                       <p>Secure checkout with Paystack</p>
                     </div>
                   </>
-                ) : showCheckout && !showDelivery ? (
+                )}
+                {showCheckout && !showDelivery && (
                   <>
                     {/* Customer Information Form */}
                     <div className="space-y-4 mb-6">
@@ -299,7 +300,8 @@ const Cart = () => {
                       <p>Accepted: Mobile Money, Cards, Bank Transfer</p>
                     </div>
                   </>
-                ) : showDelivery ? (
+                )}
+                {showDelivery && (
                   <>
                     {/* Delivery Information Form */}
                     <div className="space-y-4 mb-6">
@@ -403,7 +405,7 @@ const Cart = () => {
                       <p>Accepted: Mobile Money, Cards, Bank Transfer</p>
                     </div>
                   </>
-                ) : null}
+                )}
               </CardContent>
             </Card>
           </div>
