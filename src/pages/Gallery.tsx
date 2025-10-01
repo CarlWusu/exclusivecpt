@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import SEO from '@/components/SEO';
 import new1 from '@/assets/new1.jpg';
 import new2 from '@/assets/new2.jpg';
 import new3 from '@/assets/new3.jpg';
@@ -71,6 +72,11 @@ const Gallery = () => {
 
   return (
     <div className="min-h-screen pt-16">
+      <SEO 
+        title="Gallery - Exclusive Streetwear Collection | View Our Designs"
+        description="Browse our stunning gallery of exclusive Ghanaian streetwear designs. View Greater Lines and Number Plate collections in action."
+        keywords="Ghanaian streetwear gallery, African fashion photos, exclusive designs, streetwear lookbook"
+      />
       {/* Hero Section */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
@@ -92,6 +98,7 @@ const Gallery = () => {
               <img 
                 src={galleryImages[currentIndex].src} 
                 alt={galleryImages[currentIndex].alt}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
@@ -141,6 +148,7 @@ const Gallery = () => {
                     <img 
                       src={image.src} 
                       alt={image.alt}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   </button>

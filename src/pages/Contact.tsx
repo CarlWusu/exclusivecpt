@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -30,6 +31,11 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen pt-16">
+      <SEO 
+        title="Contact Exclusive | Get In Touch - Accra, Ghana"
+        description="Contact Exclusive for inquiries, collaborations, or customer support. Located in Accra, Ghana. Phone, email, and visit us at our Oxford Street location."
+        keywords="Contact Exclusive Ghana, Accra fashion store, buy Ghanaian streetwear, customer support, fashion inquiries"
+      />
       {/* Hero Section */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">

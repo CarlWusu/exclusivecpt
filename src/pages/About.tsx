@@ -1,10 +1,16 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import SEO from '@/components/SEO';
 import heroImage from '@/assets/photo.jpg';
 
 const About = () => {
   return (
     <div className="min-h-screen pt-16">
+      <SEO 
+        title="About Exclusive - Premium Ghanaian Streetwear Brand | Our Story"
+        description="Learn about Exclusive - Ghana's premier streetwear brand. Discover how we celebrate African heritage through premium fashion, authentic designs, and cultural pride."
+        keywords="About Exclusive, Ghanaian fashion brand, African streetwear company, Ghana clothing brand, cultural fashion"
+      />
       {/* Hero Section */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
@@ -49,6 +55,7 @@ const About = () => {
               <img 
                 src={heroImage} 
                 alt="Exclusive Ghanaian Streetwear" 
+                loading="lazy"
                 className="w-full h-auto rounded-lg object-cover"
               />
             </div>

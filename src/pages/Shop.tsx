@@ -4,6 +4,7 @@ import { products } from '@/data/products';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/context/CartContext';
+import SEO from '@/components/SEO';
 import new3 from '@/assets/new3.jpg';
 import img5 from '@/assets/img5.jpg';
 
@@ -34,6 +35,11 @@ const Shop = () => {
 
   return (
     <div className="min-h-screen pt-16">
+      <SEO 
+        title="Shop Exclusive Ghanaian Streetwear | Greater Lines & Number Plate"
+        description="Shop our exclusive Greater Lines and Number Plate collections. Premium Ghanaian streetwear in black and white. Free shipping, secure checkout with Mobile Money."
+        keywords="buy Ghanaian streetwear, Greater Lines tshirt, Number Plate tshirt, Ghana fashion shop, African clothing online"
+      />
       {/* Hero Section */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
@@ -59,6 +65,7 @@ const Shop = () => {
                     <img
                       src={getProductImage(product, selectedColors[product.id] || 'white')}
                       alt={product.name}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-all duration-300"
                     />
                   </div>

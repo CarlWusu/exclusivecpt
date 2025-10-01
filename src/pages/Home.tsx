@@ -1,10 +1,16 @@
 import HeroSection from '@/components/HeroSection';
+import SEO from '@/components/SEO';
 
 const Home = () => {
   
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title="Exclusive - Premium Ghanaian Streetwear | C25 Collection"
+        description="Discover premium Ghanaian streetwear with our exclusive C25 collection. Bold designs that celebrate African culture and heritage. Free shipping on all orders."
+        keywords="Ghanaian streetwear, C25 collection, African fashion, premium clothing, Ghana streetwear, exclusive fashion"
+      />
       {/* Hero Section */}
       <HeroSection />
 
