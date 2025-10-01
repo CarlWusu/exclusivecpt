@@ -84,13 +84,58 @@ const PaystackButton = ({ email, phone, firstName, lastName, deliveryInfo }: Pay
     },
   };
 
-  const onSuccess = (reference: any) => {
+  const onSuccess = async (reference: any) => {
     toast.success('Payment Successful!', {
       description: `Thank you for your purchase. Reference: ${reference.reference}`,
     });
+    
+    // Send order details to business email
+    try {
+      await fetch('https://formspree.io/f/xzzjgbzv', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: `${firstName || ''} ${lastName || ''}`.trim() || 'Customer',
+          email: email,
+          subject: `New Order - ${reference.reference}`,
+          message: `NEW ORDER RECEIVED
+
+Payment Reference: ${reference.reference}
+Customer: ${firstName || ''} ${lastName || ''}
+Email: ${email}
+Phone: ${phone || 'Not provided'}
+
+ORDER DETAILS:
+${state.items.map(item => `- ${item.name} (${item.color}) x${item.quantity} = ₵${item.price * item.quantity}`).join('\n')}
+
+Total: ₵${getTotalPrice()}
+
+${deliveryInfo ? `
+DELIVERY INFORMATION:
+Address: ${deliveryInfo.address}
+City: ${deliveryInfo.city}
+Region: ${deliveryInfo.region}
+Postal Code: ${deliveryInfo.postalCode || 'Not provided'}
+Delivery Phone: ${deliveryInfo.deliveryPhone}
+Instructions: ${deliveryInfo.deliveryInstructions || 'None'}
+` : ''}
+
+Please process this order and arrange delivery.
+
+Best regards,
+Exclusive Team`,
+          _replyto: email,
+          _subject: `New Order - ${reference.reference}`,
+        }),
+      });
+    } catch (error) {
+      console.error('Error sending order email:', error);
+    }
+    
     clearCart();
     console.log('Payment successful:', reference);
-    // Here you can send the reference to your backend to verify the payment
   };
 
   const onClose = () => {
