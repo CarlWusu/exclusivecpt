@@ -8,9 +8,17 @@ interface PaystackButtonProps {
   phone?: string;
   firstName?: string;
   lastName?: string;
+  deliveryInfo?: {
+    address: string;
+    city: string;
+    region: string;
+    postalCode: string;
+    deliveryPhone: string;
+    deliveryInstructions: string;
+  };
 }
 
-const PaystackButton = ({ email, phone, firstName, lastName }: PaystackButtonProps) => {
+const PaystackButton = ({ email, phone, firstName, lastName, deliveryInfo }: PaystackButtonProps) => {
   const { getTotalPrice, clearCart, state } = useCart();
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
 
@@ -45,6 +53,33 @@ const PaystackButton = ({ email, phone, firstName, lastName }: PaystackButtonPro
             color: item.color,
           }))),
         },
+        ...(deliveryInfo ? [
+          {
+            display_name: 'Delivery Address',
+            variable_name: 'delivery_address',
+            value: deliveryInfo.address,
+          },
+          {
+            display_name: 'City',
+            variable_name: 'delivery_city',
+            value: deliveryInfo.city,
+          },
+          {
+            display_name: 'Region',
+            variable_name: 'delivery_region',
+            value: deliveryInfo.region,
+          },
+          {
+            display_name: 'Delivery Phone',
+            variable_name: 'delivery_phone',
+            value: deliveryInfo.deliveryPhone,
+          },
+          {
+            display_name: 'Delivery Instructions',
+            variable_name: 'delivery_instructions',
+            value: deliveryInfo.deliveryInstructions || 'None',
+          },
+        ] : []),
       ],
     },
   };

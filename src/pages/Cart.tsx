@@ -11,18 +11,36 @@ import PaystackButton from '@/components/PaystackButton';
 const Cart = () => {
   const { state, updateQuantity, removeItem, getTotalPrice } = useCart();
   const [showCheckout, setShowCheckout] = useState(false);
+  const [showDelivery, setShowDelivery] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
   });
+  const [deliveryInfo, setDeliveryInfo] = useState({
+    address: '',
+    city: '',
+    region: '',
+    postalCode: '',
+    deliveryPhone: '',
+    deliveryInstructions: '',
+  });
 
   const handleProceedToCheckout = () => {
     setShowCheckout(true);
   };
 
-  const isFormValid = customerInfo.email && customerInfo.firstName && customerInfo.phone;
+  const handleProceedToDelivery = () => {
+    setShowDelivery(true);
+  };
+
+  const handleBackToCustomer = () => {
+    setShowDelivery(false);
+  };
+
+  const isCustomerFormValid = customerInfo.email && customerInfo.firstName && customerInfo.phone;
+  const isDeliveryFormValid = deliveryInfo.address && deliveryInfo.city && deliveryInfo.region && deliveryInfo.deliveryPhone;
 
   if (state.items.length === 0) {
     return (
@@ -156,10 +174,10 @@ const Cart = () => {
             <Card className="sticky top-24">
               <CardContent className="p-6">
                 <h2 className="font-heading text-2xl font-semibold mb-6 text-foreground">
-                  {showCheckout ? 'Customer Information' : 'Order Summary'}
+                  {showDelivery ? 'Delivery Information' : showCheckout ? 'Customer Information' : 'Order Summary'}
                 </h2>
                 
-                {!showCheckout ? (
+                {!showCheckout && !showDelivery ? (
                   <>
                     <div className="space-y-4 mb-6">
                       <div className="flex justify-between">
@@ -257,13 +275,15 @@ const Cart = () => {
                       </div>
                     </div>
 
-                    {/* Paystack Payment Button */}
-                    <PaystackButton
-                      email={customerInfo.email}
-                      phone={customerInfo.phone}
-                      firstName={customerInfo.firstName}
-                      lastName={customerInfo.lastName}
-                    />
+                    {/* Proceed to Delivery Button */}
+                    <Button
+                      size="lg"
+                      className="w-full bg-black text-white hover:bg-black/90 font-heading font-semibold"
+                      onClick={handleProceedToDelivery}
+                      disabled={!isCustomerFormValid}
+                    >
+                      PROCEED TO DELIVERY
+                    </Button>
 
                     <Button
                       variant="outline"
@@ -272,6 +292,110 @@ const Cart = () => {
                       onClick={() => setShowCheckout(false)}
                     >
                       BACK TO CART
+                    </Button>
+
+                    <div className="mt-6 text-center text-sm text-muted-foreground">
+                      <p className="mb-1">🔒 Secure payment powered by Paystack</p>
+                      <p>Accepted: Mobile Money, Cards, Bank Transfer</p>
+                    </div>
+                  </>
+                ) : showDelivery ? (
+                  <>
+                    {/* Delivery Information Form */}
+                    <div className="space-y-4 mb-6">
+                      <div>
+                        <Label htmlFor="address">Delivery Address *</Label>
+                        <Input
+                          id="address"
+                          placeholder="Enter your full address"
+                          value={deliveryInfo.address}
+                          onChange={(e) => setDeliveryInfo({ ...deliveryInfo, address: e.target.value })}
+                          required
+                        />
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="city">City *</Label>
+                          <Input
+                            id="city"
+                            placeholder="e.g., Accra"
+                            value={deliveryInfo.city}
+                            onChange={(e) => setDeliveryInfo({ ...deliveryInfo, city: e.target.value })}
+                            required
+                          />
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="region">Region *</Label>
+                          <Input
+                            id="region"
+                            placeholder="e.g., Greater Accra"
+                            value={deliveryInfo.region}
+                            onChange={(e) => setDeliveryInfo({ ...deliveryInfo, region: e.target.value })}
+                            required
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="postalCode">Postal Code</Label>
+                          <Input
+                            id="postalCode"
+                            placeholder="e.g., GA-123-4567"
+                            value={deliveryInfo.postalCode}
+                            onChange={(e) => setDeliveryInfo({ ...deliveryInfo, postalCode: e.target.value })}
+                          />
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="deliveryPhone">Delivery Phone *</Label>
+                          <Input
+                            id="deliveryPhone"
+                            type="tel"
+                            placeholder="0249295595"
+                            value={deliveryInfo.deliveryPhone}
+                            onChange={(e) => setDeliveryInfo({ ...deliveryInfo, deliveryPhone: e.target.value })}
+                            required
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="deliveryInstructions">Delivery Instructions</Label>
+                        <Input
+                          id="deliveryInstructions"
+                          placeholder="Any special instructions for delivery..."
+                          value={deliveryInfo.deliveryInstructions}
+                          onChange={(e) => setDeliveryInfo({ ...deliveryInfo, deliveryInstructions: e.target.value })}
+                        />
+                      </div>
+
+                      <hr className="border-border my-4" />
+                      
+                      <div className="flex justify-between text-lg">
+                        <span className="font-semibold">Total to Pay</span>
+                        <span className="font-bold text-foreground">₵{getTotalPrice().toFixed(2)}</span>
+                      </div>
+                    </div>
+
+                    {/* Paystack Payment Button */}
+                    <PaystackButton
+                      email={customerInfo.email}
+                      phone={deliveryInfo.deliveryPhone}
+                      firstName={customerInfo.firstName}
+                      lastName={customerInfo.lastName}
+                      deliveryInfo={deliveryInfo}
+                    />
+
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="w-full mt-3"
+                      onClick={handleBackToCustomer}
+                    >
+                      BACK TO CUSTOMER INFO
                     </Button>
 
                     <div className="mt-6 text-center text-sm text-muted-foreground">
