@@ -218,7 +218,7 @@ const Cart = () => {
                       <p>Secure checkout with Paystack</p>
                     </div>
                   </>
-                ) : (
+                ) : showCheckout && !showDelivery ? (
                   <>
                     {/* Customer Information Form */}
                     <div className="space-y-4 mb-6">
@@ -403,7 +403,7 @@ const Cart = () => {
                       <p>Accepted: Mobile Money, Cards, Bank Transfer</p>
                     </div>
                   </>
-                )}
+                ) : null}
               </CardContent>
             </Card>
           </div>
