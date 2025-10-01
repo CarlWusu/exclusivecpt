@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Mail, Phone, Instagram, Facebook, Twitter } from 'lucide-react';
 import SEO from '@/components/SEO';
 
 const Contact = () => {
@@ -186,19 +186,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-lg mb-1">Call Us</h3>
-                    <p className="text-muted-foreground">+233 50 123 4567</p>
+                    <p className="text-muted-foreground">0249295595</p>
                     <p className="text-muted-foreground">Mon-Fri, 9AM-6PM GMT</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start space-x-4">
-                  <div className="bg-gold/10 p-3 rounded-lg">
-                    <MapPin className="h-6 w-6 text-gold" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading font-semibold text-lg mb-1">Visit Us</h3>
-                    <p className="text-muted-foreground">123 Oxford Street</p>
-                    <p className="text-muted-foreground">Osu, Accra, Ghana</p>
                   </div>
                 </div>
               </div>
@@ -225,16 +214,6 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Map Section (Placeholder) */}
-      <section className="h-96 bg-muted">
-        <div className="h-full flex items-center justify-center">
-          <div className="text-center">
-            <MapPin className="h-12 w-12 text-gold mx-auto mb-4" />
-            <h3 className="font-heading text-xl font-semibold text-foreground mb-2">Our Location</h3>
-            <p className="text-muted-foreground">123 Oxford Street, Osu, Accra, Ghana</p>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
