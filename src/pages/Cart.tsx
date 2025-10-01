@@ -2,23 +2,27 @@ import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import PaystackButton from '@/components/PaystackButton';
 
 const Cart = () => {
   const { state, updateQuantity, removeItem, getTotalPrice } = useCart();
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+  });
 
-  const handleCheckout = async () => {
-    setIsCheckingOut(true);
-    
-    // Simulate checkout process
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsCheckingOut(false);
-    
-    // Show success message
-    alert('Order placed successfully! Thank you for your purchase.');
+  const handleProceedToCheckout = () => {
+    setShowCheckout(true);
   };
+
+  const isFormValid = customerInfo.email && customerInfo.firstName && customerInfo.phone;
 
   if (state.items.length === 0) {
     return (
@@ -146,53 +150,135 @@ const Cart = () => {
             </div>
           </div>
 
-          {/* Order Summary */}
+          {/* Order Summary & Checkout */}
           <div className="lg:col-span-1">
             <Card className="sticky top-24">
               <CardContent className="p-6">
                 <h2 className="font-heading text-2xl font-semibold mb-6 text-foreground">
-                  Order Summary
+                  {showCheckout ? 'Customer Information' : 'Order Summary'}
                 </h2>
                 
-                <div className="space-y-4 mb-6">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span className="font-medium">₵{getTotalPrice().toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Shipping</span>
-                    <span className="font-medium">Free</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Tax</span>
-                    <span className="font-medium">₵0.00</span>
-                  </div>
-                  <hr className="border-border" />
-                  <div className="flex justify-between text-lg">
-                    <span className="font-semibold">Total</span>
-                    <span className="font-bold text-foreground">₵{getTotalPrice().toFixed(2)}</span>
-                  </div>
-                </div>
+                {!showCheckout ? (
+                  <>
+                    <div className="space-y-4 mb-6">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Subtotal</span>
+                        <span className="font-medium">₵{getTotalPrice().toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Shipping</span>
+                        <span className="font-medium">Free</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Tax</span>
+                        <span className="font-medium">₵0.00</span>
+                      </div>
+                      <hr className="border-border" />
+                      <div className="flex justify-between text-lg">
+                        <span className="font-semibold">Total</span>
+                        <span className="font-bold text-foreground">₵{getTotalPrice().toFixed(2)}</span>
+                      </div>
+                    </div>
 
-                <Button
-                  size="lg"
-                  className="w-full bg-gold hover:bg-gold/90 text-gold-foreground font-heading font-semibold mb-4"
-                  onClick={handleCheckout}
-                  disabled={isCheckingOut}
-                >
-                  {isCheckingOut ? 'Processing...' : 'PROCEED TO CHECKOUT'}
-                </Button>
+                    <Button
+                      size="lg"
+                      className="w-full bg-black text-white hover:bg-black/90 font-heading font-semibold mb-4"
+                      onClick={handleProceedToCheckout}
+                    >
+                      PROCEED TO CHECKOUT
+                    </Button>
 
-                <Link to="/shop">
-                  <Button variant="outline" size="lg" className="w-full">
-                    CONTINUE SHOPPING
-                  </Button>
-                </Link>
+                    <Link to="/shop">
+                      <Button variant="outline" size="lg" className="w-full">
+                        CONTINUE SHOPPING
+                      </Button>
+                    </Link>
 
-                <div className="mt-6 text-center text-sm text-muted-foreground">
-                  <p>Free shipping on all orders</p>
-                  <p>Secure checkout with 256-bit SSL</p>
-                </div>
+                    <div className="mt-6 text-center text-sm text-muted-foreground">
+                      <p>Free shipping on all orders</p>
+                      <p>Secure checkout with Paystack</p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {/* Customer Information Form */}
+                    <div className="space-y-4 mb-6">
+                      <div>
+                        <Label htmlFor="firstName">First Name *</Label>
+                        <Input
+                          id="firstName"
+                          placeholder="Enter your first name"
+                          value={customerInfo.firstName}
+                          onChange={(e) => setCustomerInfo({ ...customerInfo, firstName: e.target.value })}
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="lastName">Last Name</Label>
+                        <Input
+                          id="lastName"
+                          placeholder="Enter your last name"
+                          value={customerInfo.lastName}
+                          onChange={(e) => setCustomerInfo({ ...customerInfo, lastName: e.target.value })}
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="email">Email *</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="your.email@example.com"
+                          value={customerInfo.email}
+                          onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="phone">Phone Number *</Label>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="0244123456"
+                          value={customerInfo.phone}
+                          onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
+                          required
+                        />
+                      </div>
+
+                      <hr className="border-border my-4" />
+                      
+                      <div className="flex justify-between text-lg">
+                        <span className="font-semibold">Total to Pay</span>
+                        <span className="font-bold text-foreground">₵{getTotalPrice().toFixed(2)}</span>
+                      </div>
+                    </div>
+
+                    {/* Paystack Payment Button */}
+                    <PaystackButton
+                      email={customerInfo.email}
+                      phone={customerInfo.phone}
+                      firstName={customerInfo.firstName}
+                      lastName={customerInfo.lastName}
+                    />
+
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="w-full mt-3"
+                      onClick={() => setShowCheckout(false)}
+                    >
+                      BACK TO CART
+                    </Button>
+
+                    <div className="mt-6 text-center text-sm text-muted-foreground">
+                      <p className="mb-1">🔒 Secure payment powered by Paystack</p>
+                      <p>Accepted: Mobile Money, Cards, Bank Transfer</p>
+                    </div>
+                  </>
+                )}
               </CardContent>
             </Card>
           </div>
