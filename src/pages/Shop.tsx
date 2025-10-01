@@ -138,6 +138,7 @@ const Shop = () => {
                           -
                         </Button>
                         <Input
+                          id={`quantity-${product.id}`}
                           type="number"
                           min="1"
                           max="100"
