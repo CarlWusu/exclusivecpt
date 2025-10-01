@@ -14,12 +14,35 @@ const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    
+    try {
+      const response = await fetch('https://formspree.io/f/xpzqkqjq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          _replyto: formData.email,
+          _subject: `Contact Form: ${formData.subject}`,
+        }),
+      });
+
+      if (response.ok) {
+        alert('Message sent successfully! We\'ll get back to you soon.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        alert('There was an error sending your message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('There was an error sending your message. Please try again.');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -152,8 +175,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-lg mb-1">Email Us</h3>
-                    <p className="text-muted-foreground">hello@exclusive.gh</p>
-                    <p className="text-muted-foreground">support@exclusive.gh</p>
+                    <p className="text-muted-foreground">exclusive.cptgh@gmail.com</p>
+                    <p className="text-muted-foreground">For support and inquiries</p>
                   </div>
                 </div>
                 
