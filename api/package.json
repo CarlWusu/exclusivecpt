@@ -1,0 +1,9 @@
+{
+  "name": "exclusive-api",
+  "version": "1.0.0",
+  "description": "API functions for Exclusive e-commerce",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
